@@ -11,21 +11,8 @@ server.use(cookiesParser());
 server.set('view engine','ejs');
 server.use(express.static("public"));
 server.use(bodyparser.urlencoded({extended:true}));
+server.use("/uploads", express.static("uploads"));
 server.use("/",Routes);
-
-// server.get("/sign-up",(req,res)=>{
-//     res.cookie("user","1234566");
-//     res.send("cookies sent");
-// });
-// server.get("/sign-in",(req,res)=>{
-//     let ck=req.cookies;
-//     console.log("cookies",ck);
-//     res.send("cookies get");
-// })
-// server.get("/delete-cookie",(req,res)=>{
-//   res.clearCookie('user');
-//   res.send("cookie clear");
-// })
 
 server.listen(port,(err)=>{
     if(!err){

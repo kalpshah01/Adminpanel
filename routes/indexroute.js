@@ -3,11 +3,11 @@ const route=express.Router();
 const { testController} = require("../controllers/authController");
 const authRoute=require("./authroute/authroute");
 const db = require('../config/database');
-const {dashboardController}= require("./dashboard/dashboardroute");
+const dashboardRoute= require("./dashboard/dashboardroute");
 db();
 route.get("/",testController);
 route.use("/auth",authRoute);
-route.use("/dashboard",dashboardController);
+route.use("/dashboard",dashboardRoute);
 
 
 

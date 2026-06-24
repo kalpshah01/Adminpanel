@@ -1,7 +1,7 @@
 const User = require("../model/userModel");
 
 const testController = (req, res) => {
-  res.send("default");
+  res.redirect("/auth/signup");
 };
 // const signupController = (req, res) => {
 //     let {user}=req.cookies;
@@ -79,10 +79,17 @@ else{
 }
 //res.render('');
 }
+const logoutController = (req,res)=>{
+    
+    res.clearCookie("user");
+
+    return res.redirect("/auth/signin");
+}
 module.exports = {
   testController,
   signinController,
   signupController,
   registerController,
-  loginController
+  loginController,
+  logoutController
 };
