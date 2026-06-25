@@ -3,21 +3,6 @@ const User = require("../model/userModel");
 const testController = (req, res) => {
   res.redirect("/auth/signup");
 };
-// const signupController = (req, res) => {
-//     let {user}=req.cookies;
-//     if(user){
-//         res.redirect("/auth/signin");
-//     }
-//   res.render("signup");
-// };
-// const signinController = (req, res) => {
-//     let {user}=req.cookies;
-//     if(!user){
-//         res.redirect("/auth/signup");
-//     }
-//   res.render("signin");
-// };
-
 
 
 const signupController = (req, res) => {
