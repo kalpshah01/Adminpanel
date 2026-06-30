@@ -1,5 +1,7 @@
+// const passport = require("passport");
 const User = require("../model/userModel");
 const bcrypt=require("bcrypt");
+const passport=require('../middleware/passport');
 const testController = (req, res) => {
   res.redirect("/auth/signup");
 };
@@ -47,35 +49,47 @@ const signinController = (req, res) => {
   }
 };
 
+const loginController = (req, res, next) => {
+  passport.authenticate("local", (err, user, info) => {
 
-  const loginController=async(req,res)=>{
-  console.log("login data is",req.body);
-  let{email,password}=req.body;
-  let user=await User.findOne({email});
-  console.log(user);
-  if(user){
-      bcrypt.compare(password, user.password, (err, result) => {
     if (err) {
-        return res.redirect("/auth/signin");
+      return next(err);
     }
 
-    if (result) {
-        res.cookie("user", user._id);
-        res.redirect("/dashboard");
-    } else {
-        res.redirect("/auth/signin");
+    if (!user) {
+      if (info?.message === "User not found") {
+        return res.redirect("/auth/signup");
+      }
+
+      if (info?.message === "Incorrect password") {
+        return res.redirect("/auth/signin");
+      }
+
+      return res.redirect("/auth/signin");
     }
-   });
-      
-  }
-  else{
-      res.redirect("/auth/signup");
-  }
-  //res.render('');
-  }
+
+    req.login(user, (err) => {
+      if (err) {
+        console.log("Error in login", err);
+        return res.redirect("/auth/signin");
+      }
+
+      console.log("Login Success");
+      console.log("Session:", req.session);
+
+      return res.redirect("/dashboard");
+    });
+
+  })(req, res, next);
+};
 const logoutController = (req,res)=>{
     
-    res.clearCookie("user");
+    req.logout((err)=>{
+      if(err){
+        console.log("Error in logout",err);
+      }
+    });
+  //  res.clearCookie("user");
 
     return res.redirect("/auth/signin");
 }

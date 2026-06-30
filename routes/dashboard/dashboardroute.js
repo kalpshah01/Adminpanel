@@ -1,13 +1,4 @@
-// const dashboardController=(req,res)=>{
-//     let {user}=req.cookies;
-//     if(!user){
-//        return res.redirect("/auth/signin");
-//     }
-//     res.render("dashboard");
-// }
 
-
-// module.exports={dashboardController};
 
 const express=require('express');
 const route=express.Router();
@@ -15,13 +6,14 @@ const route=express.Router();
 const blogMulter=require("../../multer/blogMulter");
 
 const {addblogController,viewblogController,editblogController,updateblogController,deleteblogController,dashboardController,showaddblogController} = require("../../controllers/dashboardController");
-route.get("/",dashboardController);
-route.post("/adds-blogs", blogMulter.single('image') ,addblogController);
-route.get("/views-blogs",viewblogController);
-route.get("/add-blog",showaddblogController);
-route.get("/edit-blog/:id",editblogController)
-route.post("/update-blog/:id",blogMulter.single('image'),updateblogController);
-route.get("/delete-blog/:id",deleteblogController);
+const { LoginCheck } = require('../../middleware/auth');
+route.get("/",LoginCheck,dashboardController);
+route.post("/adds-blogs", LoginCheck,blogMulter.single('image') ,addblogController);
+route.get("/views-blogs",LoginCheck,viewblogController);
+route.get("/add-blog",LoginCheck,showaddblogController);
+route.get("/edit-blog/:id",LoginCheck,editblogController)
+route.post("/update-blog/:id",LoginCheck,blogMulter.single('image'),updateblogController);
+route.get("/delete-blog/:id",LoginCheck,deleteblogController);
 
 
 

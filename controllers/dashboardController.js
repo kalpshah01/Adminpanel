@@ -122,11 +122,11 @@ const deleteblogController=async(req,res)=>{
 const dashboardController = async (req,res)=>{
     try{
 
-        const { user } = req.cookies;
+        // const { user } = req.cookies;
 
-        if(!user){
-            return res.redirect("/auth/signin");
-        }
+        // if(!user){
+        //     return res.redirect("/auth/signin");
+        // }
 
         const blogs = await BlogModel.find();
 
